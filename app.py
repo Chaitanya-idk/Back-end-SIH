@@ -71,6 +71,24 @@ def get_entry(id):
     return jsonify({"error": "Not found"}), 404
 
 
+
+@app.route("/api/main/search", methods=["GET"])
+def get_by_source_and_destination():
+    source = request.args.get("source")
+    destination = request.args.get("destination")
+    if not source or not destination:
+        return jsonify({"error": "Both 'source' and 'destination' parameters are required"}), 400
+    query = {
+        "source": source,
+        "destination": destination
+    }
+    docs = list(main_collection.find(query))
+    if not docs:
+        return jsonify({"message": "No buses found for this route"}), 404
+    return jsonify([serialize(doc) for doc in docs])
+
+
+
 @app.route("/api/main/<id>", methods=["PUT"])
 def update_entry(id):
     data = request.json
