@@ -36,6 +36,18 @@ def serialize(doc):
 def home():
     return "✅ Flask API is running! Use /api/main"
 
+@app.route("/api/main/serviceNumber/<int:service_number>", methods=["GET"])
+def get_entry_by_service_number(service_number):
+    try:
+        
+        doc = main_collection.find_one({"serviceNumber": service_number})
+        
+        if doc:
+            return jsonify(serialize(doc))
+        else:
+            return jsonify({"error": "Service number not found"}), 404
+    except Exception as e:
+        return jsonify({"error": str(e)}), 500
 
 @app.route("/api/main", methods=["POST"])
 def create_entry():
