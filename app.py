@@ -12,8 +12,8 @@ app = Flask(__name__)
 CORS(app)
 
 
-MONGO_URI = os.getenv("MONGO_URI")
-client = MongoClient(MONGO_URI)
+
+client = MongoClient("mongodb+srv://gitftwsih:actkas@clustersih.snppid6.mongodb.net/")
 db = client["SIH"]  
 main_collection = db["main"]  
 
